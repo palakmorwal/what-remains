@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>homepage</title>
+    <link rel="stylesheet" href="homepage.css">
+</head>
+<body>
+ <!--preloader animation html-->
+
+    <div class="preloader">
+    <div class="preloader-revealer"></div>
+
+    <div class="preloader-copy">
+        <div class="preloader-copy-col">
+            <p>harmonic collection <br>c1: interaction</p>
+        </div>
+        <div class="preloader-copy-col">
+            <p>palak morwal <br>fall 2025</p>
+        </div>
+    </div>
+
+    <div class="preloader-counter">
+        <p>00</p>
+    </div>
+</div>
+
+ <!--scrolltrigger animation html-->
+
+    <section class="hero">
+        <div class="copy-container">
+            <h1>"WHAT REMAINS"
+            </h1>
+        </div>
+    </section>
+
+    <section class="about anime-text-container">
+        <div class="copy-container">
+            <div class="anime-text">
+                <p>Sometimes I try to picture moments I can no longer experience. What remains are fragments, half-remembered and half-invented, stitched together by time and longing. This project is a quiet attempt to look back through those pieces, to see what still reflects, and what has already faded.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="features anime-text-container">
+        <div class="copy-container">
+            <div class="anime-text">
+                <p>This digital archive serves a purpose of preserving some of my childhood memories that did not get lost in my father's hard drive and i intend to put them out as a digital album for myself.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="outro">
+        <div class="copy-container">
+            <p><a href="page1.html">1</a>
+            <a href="page2.html">2</a>
+            <a href="page3.html">3</a>
+            <a href="page4.html">4</a>
+            <a href="page5.html">5</a>
+            <a href="page6.html">6</a>
+            <a href="page7.html">7</a>
+            <a href="page8.html">8</a>
+            <a href="page9.html">9</a>
+            <a href="page10.html">10</a></p>
+
+    </section>
+     
+    
+    
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.14.2/matter.min.js"></script>
+
+    <script src="homepage.js"></script>
+
+
+ <!--polaroid image animation -->
+ 
+
+    <script>
+      
+       const Engine = Matter.Engine;
+       const World = Matter.World;
+       const Bodies = Matter.Bodies;
+       const Mouse = Matter.Mouse;
+       const MouseConstraint = Matter.MouseConstraint;
+       const Body = Matter.Body;
+
+       let engine;
+       let items = [];
+       let mouseConstraint;
+       let mousePos = { x: 0, y: 0 };
+
+       function setup() {
+
+        createCanvas(window.innerWidth, window.innerHeight);
+
+
+        engine = Engine.create();
+
+        engine.world.gravity.y = 0;   
+  
+        addBoundaries();
+  
+        addMouseControl();
+
+  
+        for (let i = 0; i < 10; i++) {
+    
+            const x = random(200, window.innerWidth - 200);
+    
+            const y = random(200, window.innerHeight - 200);
+    
+            items.push(new Item(x, y, `./assets/img${i + 1}.jpg`));
+  
+        }
+
+    }
+
+
+    function addBoundaries() {
+        const thickness = 50;
+
+  
+        World.add(engine.world, [
+    
+        Bodies.rectangle(width / 2, -thickness, width, thickness, { isStatic: true }),
+    
+        Bodies.rectangle(width / 2, height + thickness, width, thickness, { isStatic: true }),
+    
+        Bodies.rectangle(-thickness, height / 2, thickness, height, { isStatic: true }),
+    
+        Bodies.rectangle(width + thickness, height / 2, thickness, height, { isStatic: true }),
+  
+    ]);
+
+}
+
+function addMouseControl() {
+  const mouse = Mouse.create(document.body);
+
+  mouseConstraint = MouseConstraint.create(engine, {
+    mouse: mouse,
+    constraint: {
+      stiffness: 0.15,
+      render: { visible: false }
+    }
+  });
+
+  World.add(engine.world, mouseConstraint);
+}
+
+function mouseMoved() {
+  mousePos.x = mouseX;
+  mousePos.y = mouseY;
+}
+
+function draw() {
+  background("#f0e9e2");
+
+  Engine.update(engine);
+
+  items.forEach(item => item.update());
+}
+
+class Item {
+  constructor(x, y, imagePath) {
+    this.w = 140;
+    this.h = 180;
+
+    const options = {
+      restitution: 0.9,
+      frictionAir: 0.03,
+      density: 0.002
+    };
+
+    this.body = Bodies.rectangle(x, y, this.w, this.h, options);
+    World.add(engine.world, this.body);
+
+    this.el = document.createElement("div");
+    this.el.className = "item";
+
+    const img = document.createElement("img");
+    img.src = imagePath;
+    this.el.appendChild(img);
+
+    document.body.appendChild(this.el);
+  }
+
+  update() {
+    const pos = this.body.position;
+
+    // Repel from cursor
+    const dx = pos.x - mousePos.x;
+    const dy = pos.y - mousePos.y;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    const radius = 200;
+
+    if (dist < radius && dist > 0.1) {
+      const force = 0.002;
+      const nx = dx / dist;
+      const ny = dy / dist;
+
+      Body.applyForce(this.body, this.body.position, {
+        x: nx * force,
+        y: ny * force
+      });
+    }
+
+    this.el.style.left = `${pos.x - this.w / 2}px`;
+    this.el.style.top = `${pos.y - this.h / 2}px`;
+    this.el.style.transform = `rotate(${this.body.angle}rad)`;
+  }
+}
+
+    </script>
+</body>
+</html>
+
+<!--
+1: She saw the world through a kaleidoscope,
+
+2:A beautiful mess of endless colors,
+
+3: Untouched by darkness and disappointment.
+
+5: Pain was temporary; A scraped knee, a paper-cut.
+Band-aids could heal every injury.
+
+7: Smile was a permanent fixture of sincerity,
+Radiating happiness.
+
+4: A gaze full of inquisitive wonder.
+
+
+6: Blissful in her ignorance she lived.
+
+8: No one ever told her the price of growing older.
+
+9: Once she was a child,
+10: A child she is no more. -->

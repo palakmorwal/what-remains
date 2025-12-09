@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>what remains 1</title>
+    <link rel="stylesheet" href="page4.css">
+</head>
+<body>
+
+     <button><a href="page3.html"><</a></button>
+     <button><a href="page5.html">></a></button>
+
+    <div id="container">
+        <video autoplay loop muted plays- inline class="background clip" data-tooltip="A gaze full of inquisitive wonder" > <source src="content/final-vids/wrr4.mp4"></video>
+         <div id="hoverTooltip"></div>>
+    </div>
+
+<script>
+    document.addEventListener('mousemove',(e) => {
+        const body = document.querySelector('body');
+        const bubble = document.createElement('div');
+        bubble.classList.add('bubble');
+        const x = e.clientX;
+        const y = e.clientY;
+        bubble.style.left = x + 'px';
+        bubble.style.top = y + 'px';
+
+        const size = Math.random() * 100;
+        bubble.style.width = 20 + size + 'px';
+        bubble.style.height = 20 + size + 'px';
+
+        body.appendChild(bubble);
+        setTimeout(() => {
+            bubble.remove();
+        }, 2000);
+    });
+
+    <!--Moving tooltip that follows mouse-->
+
+    const hoverTooltip = document.getElementById('hoverTooltip');
+        const video = document.querySelector('video');
+
+        video.addEventListener('mouseenter', () => {
+            const tooltipText = video.getAttribute('data-tooltip');
+            hoverTooltip.textContent = tooltipText;
+            hoverTooltip.classList.add('visible');
+        });
+
+        video.addEventListener('mousemove', (e) => {
+            const offsetX = 15;
+            const offsetY = 15;
+            
+            hoverTooltip.style.left = e.clientX + offsetX + 'px';
+            hoverTooltip.style.top = e.clientY + offsetY + 'px';
+        });
+
+        video.addEventListener('mouseleave', () => {
+            hoverTooltip.classList.remove('visible');
+        });
+</script>
+    
+    <script src="page4.js"></script>
+</body>
+</html>

@@ -1,0 +1,269 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap');
+
+
+@import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&display=swap');
+
+
+:root {
+    --base-100: #fff;
+    --base-200: #eff1eb;
+    --base-300: #1d23ca;
+    --base-400: #000;
+}
+
+.preloader {
+    position: fixed;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100svh;
+    display: flex;
+    align-items: center;
+    background-color: rgb(0, 0, 0);
+    color: bisque;
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+    will-change: clip-path;
+    overflow: hidden;
+    z-index: 2;
+}
+
+
+.preloader p {
+    color: var(--base-100);
+}
+
+.preloader-revealer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 100%;
+    aspect-ratio: 1;
+    background-color: var(--base-300);
+    will-change: transform;
+    z-index: 2;
+}
+
+
+
+.preloader-copy, .preloader-copy-col, .preloader-counter{
+    flex: 1;
+    display: flex;
+}
+
+.preloader-counter {
+    justify-content: flex-end;
+}
+
+.preloader-copy p{
+    width: 75%;
+}
+
+.line{
+    will-change: transform;
+    transform: translateY(100%)
+}
+
+@media (max-width: 1000px) {
+    nav .nav-links{
+        display: none;
+    }
+
+    .preloader, .preloader-copy {
+        flex-direction: column;
+    }
+     .preloader-revealer {
+        width: 300%;
+    }
+    
+    .preloader-copy-col{
+    align-items: center;}
+    
+    .preloader-copy p{
+    width: 100%;}
+    
+    .preloader-counter{
+    align-items: center;}
+
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Pixelify Sans, sans-serif;
+    background-color: #141414;
+}
+
+section {
+    position: relative;
+    width: 100vw;
+    height: 100svh;
+    padding: 2rem;
+    overflow: hidden;
+}
+
+.copy-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-radius: 2rem;
+}
+
+.copy-container h1 {
+    width: 70%;
+    color: #ffffff;
+    font-size: 5rem;
+    font-weight: 900;
+    line-height: 1;
+}
+
+.hero .copy-container {
+    background: #1d23ca;
+}
+
+.outro .copy-container {
+    background: #1d23ca;
+}
+
+.outro .copy-container p {
+    a {
+        color: #fff;
+        text-decoration: underline;
+    }
+}
+
+.about .copy-container,
+.features .copy-container {
+    border: 0.15rem dashed rgb(60, 60, 60);
+}
+
+.anime-text {
+    width: 60%;
+}
+
+.anime-text p {
+    color: #fff;
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    font-weight: 100;
+    line-height: 1;
+}
+
+.anime-text .word {
+    display: inline-block;
+    position: relative;
+    margin-right: 0.2rem;
+    margin-bottom: 0.2rem;
+    padding: 0.1rem 0.2rem;
+    border-radius: 2rem;
+    will-change: background-color, opacity;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.anime-text .word.keyword-wrapper {
+    margin: 0 0.4rem 0.2rem 0.2rem;
+}
+
+.anime-text .word span {
+    position: relative;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.anime-text .word span.keyword {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    border-radius: 2rem;
+    padding: 0.1rem 0rem;
+    color: #ffffff;
+}
+
+.anime-text .word span.keyword::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(100% + 1rem);
+    height: calc(100% + 0.4rem);
+    background-color: #fff;
+    border-radius: 2rem;
+    z-index: -1;
+}
+
+.anime-text .word span.keyword.moments::before,
+.anime-text .word span.keyword.stitched::before,
+.anime-text .word span.keyword.digital::before {
+    background-color: #1d23ca;
+}
+
+.anime-text .word span.keyword.experience::before,
+.anime-text .word span.keyword.pieces::before,
+.anime-text .word span.keyword.preserving::before {
+    background-color: #1d23ca;
+}
+
+.anime-text .word span.keyword.fragments::before,
+.anime-text .word span.keyword.archive::before,
+.anime-text .word span.keyword.album::before {
+    background-color: #1d23ca;
+}
+
+@media (max-width: 1000px) {
+    .copy-container h1 {
+        width: 90%;
+        font-size: 2rem;
+    }
+
+    .anime-text {
+        width: 90%;
+    }
+
+    .anime-text p {
+        font-size: 1.25rem;
+    }
+
+    .anime-text .word {
+        margin-right: 0.1rem;
+        margin-bottom: 0.15rem;
+        padding: 0.1rem 0.2rem;
+    }
+
+    .anime-text .word.keyword-wrapper {
+        margin: 0 0.2rem 0.1rem 0.1rem;
+    }
+}
+
+/* polaroid images css code */
+
+.item {
+    position: absolute;
+    padding: 0.5rem 0.5rem 4em 0.5rem;
+    width: 200px;
+    height: 225px;
+    overflow: hidden;
+    background: white;
+}
+
+.item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(100%);
+}
+
+canvas{
+    display: none;
+}
